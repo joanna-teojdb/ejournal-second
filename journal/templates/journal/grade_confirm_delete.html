@@ -1,0 +1,14 @@
+{% extends 'journal/base.html' %} 
+{% block title %} Usuń ocenę {% endblock %} 
+{% block content %}
+<h1>Czy na pewno chcesz usunąć tę ocenę?</h1>
+<p>
+  {{ object.student.first_name }} {{ object.student.last_name }} - {{
+  object.subject.name }}: {{ object.value }}
+</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Tak, usuń</button>
+</form>
+<a href="{% url 'grade_list' %}">Anuluj</a>
+{% endblock %}

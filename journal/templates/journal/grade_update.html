@@ -1,0 +1,10 @@
+{% extends 'journal/base.html' %} 
+{% block title %} Edytuj ocenę {% endblock %} 
+{% block content %}
+<h1>Edytuj ocenę</h1>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Zapisz zmiany</button>
+</form>
+<a href="{% url 'grade_list' %}">Powrót do listy ocen</a>
+{% endblock %}

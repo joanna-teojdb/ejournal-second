@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Elektroniczny dziennik{% endblock %}</title>
+    <!-- Link do Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #dcdcdc; /* Kolor przypominający kamień (light gray) */
+            font-family: 'Arial', sans-serif; /* Nowoczesna czcionka */
+        }
+        header {
+            background-color: #a9a9a9; /* Ciemniejszy odcień dla nagłówka (dark gray) */
+            padding: 20px 0;
+        }
+        nav ul {
+            list-style-type: none; /* Usunięcie punktów z listy */
+            padding: 0;
+        }
+        nav ul li {
+            display: inline; /* Wyświetlenie elementów w linii */
+            margin-right: 30px; /* Większy odstęp między linkami */
+        }
+        nav ul li a {
+            color: #fff; /* Kolor tekstu linków */
+            text-decoration: none; /* Usunięcie podkreślenia */
+            font-weight: bold; /* Pogrubienie tekstu */
+            transition: color 0.3s; /* Płynna zmiana koloru */
+        }
+        nav ul li a:hover {
+            color: #ffcc00; /* Kolor przy najechaniu */
+            text-decoration: underline; /* Podkreślenie przy najechaniu */
+        }
+        main {
+            padding: 20px; /* Padding dla głównej zawartości */
+            border-radius: 8px; /* Zaokrąglenie rogów */
+            background-color: #ffffff; /* Białe tło dla głównej zawartości */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Cień dla głównej zawartości */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <ul>
+                <li><a href="{% url 'index' %}">Strona główna</a></li>
+                <li><a href="{% url 'student_list' %}">Uczniowie</a></li>
+                <li><a href="{% url 'subject_list' %}">Przedmioty</a></li>
+                <li><a href="{% url 'grade_list' %}">Oceny</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container mt-4">{% block content %}{% endblock %}</main>
+
+    <!-- Link do Bootstrap JS i jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

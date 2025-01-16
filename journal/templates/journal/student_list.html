@@ -1,0 +1,13 @@
+{% extends 'journal/base.html' %} 
+{% block title %}Lista uczniów{% endblock %}
+{% block content %}
+<h1>Lista uczniów</h1>
+<ul>
+  {% for student in students %}
+  <li>
+    {{ student.first_name }} {{ student.second_name }} (Klasa: {{ student.class_number }})
+  </li>
+  {% endfor %}
+</ul>
+<a href="{% url 'student_add' %}">Dodaj ucznia</a>
+{% endblock %}

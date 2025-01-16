@@ -1,0 +1,10 @@
+{% extends 'journal/base.html' %} 
+{% block title %} Dodaj przedmiot {% endblock %}
+{% block content %}
+<h1> Dodaj przedmiot </h1>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Zapisz</button>
+</form>
+<a href="{% url 'subject_list' %}">Powrót do listy przedmiotów</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'journal/base.html' %} 
+{% block title %} Lista przedmiotów {% endblock%} 
+{% block content %}
+<h1>Lista przedmiotów</h1>
+<ul>
+  {% for subject in subjects %}
+  <li>{{ subject.name }}</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'subject_add' %}">Dodaj przedmiot</a>
+{% endblock %}
