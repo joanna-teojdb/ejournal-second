@@ -1,0 +1,1 @@
+Repository of ejournal Django code

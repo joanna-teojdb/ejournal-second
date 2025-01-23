@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 class Student(models.Model):
 
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=50)
     second_name = models.CharField(max_length=50) 
     class_number = models.PositiveIntegerField(default=1)
@@ -26,3 +28,4 @@ class Grade(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     value = models.DecimalField(decimal_places=1, max_digits=3)
     date_added = models.DateTimeField(auto_now_add=True)
+

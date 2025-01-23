@@ -49,6 +49,17 @@
                 <li><a href="{% url 'student_list' %}">Uczniowie</a></li>
                 <li><a href="{% url 'subject_list' %}">Przedmioty</a></li>
                 <li><a href="{% url 'grade_list' %}">Oceny</a></li>
+                {% if user.is_authenticated %}
+                <li>Witaj {{ user.username }}!</li>
+                    {% if user.is_staff %}
+                    <li>Nauczyciel</li>
+                    {% else %}
+                    <li>Uczeń</li>
+                {% endif %}
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Rejestracja</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>

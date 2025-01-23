@@ -22,3 +22,8 @@ class GradeForm(forms.ModelForm):
         fields = ['subject', 'student', 'value']  
 
     
+class GradeUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Grade
+        fields = ['value']

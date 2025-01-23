@@ -1,60 +1,108 @@
+from django.views.generic import (CreateView, DeleteView, ListView, UpdateView, TemplateView)
 from django.shortcuts import render
-
-# Create your views here.
-
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Student, Subject, Grade
+from .models import Student, Grade, Subject
 from .forms import StudentForm, SubjectForm, GradeForm
+from django.urls import reverse_lazy
+from .mixins import TeacherRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
 
-# Create your views here.
-def index(request):
-  context = {"pagename": "Index"}
-  return render(request, 'journal/index.html', context)
+# Widoki ogolne 
+class JournalIndexView(TemplateView):
+    
+    template_name = "journal/index.html"
 
-# Student
+# Students
+class StudentListView(ListView):
+    
+    template_name = "journal/student_list.html"
+    model = Student
+    context_object_name = "students"
+    
 
-def student_list(request):
-  students = Student.objects.all()
-  context = {"students":students}
-  return render(request, "journal/student_list.html", context)
+class StudentCreateView(TeacherRequiredMixin, CreateView):
+    
+    template_name = "journal/student_form.html"
+    model = Student
+    form_class = StudentForm
+    success_url = reverse_lazy("student_list")
 
-def student_add(request):
-  form = StudentForm()
-  context = {"form":form}
-  return render(request, "journal/student_form.html", context)
 
-# Subject
+# Subjects
+class SubjectListView(ListView):
+    
+    template_name = "journal/subject_list.html"
+    model = Subject
+    context_object_name = "subjects"
+    
 
-def subject_list(request):
-  subjects = Subject.objects.all()
-  context = {"subjects":subjects}
-  return render(request, "journal/subject_list.html", context)
+class SubjectCreateView(TeacherRequiredMixin, CreateView):
+    
+    template_name = "journal/subject_form.html"
+    model =  Subject
+    form_class = SubjectForm
+    success_url = reverse_lazy("subject_list")
 
-def subject_add(request):
-  form = SubjectForm()
-  context = {"form":form}
-  return render(request, "journal/subject_form.html", context)
 
-# Grade
+# Grades
+class GradeListView(ListView):
+    
+    template_name = "journal/grade_list.html"
+    model = Grade
+    context_object_name = "grades"
+    
 
-def grade_list(request):
-  grades = Grade.objects.all()
-  context = {"grades":grades}
-  return render(request, "journal/grade_list.html", context)
+class GradeCreateView(TeacherRequiredMixin, CreateView):
+    
+    template_name = "journal/grade_form.html"
+    model =  Grade
+    form_class = GradeForm
+    success_url = reverse_lazy("grade_list")
 
-def grade_add(request):
-  form = GradeForm()
-  context = {"form":form}
-  return render(request, "journal/grade_form.html", context)
+class GradeUpdateView(TeacherRequiredMixin, UpdateView):
+    
+    template_name = "journal/grade_form.html"
+    model =  Grade
+    form_class = GradeForm
+    success_url = reverse_lazy("grade_list")
 
-def grade_update(request, pk):
-  grade = get_object_or_404(Grade, pk=pk)
-  form = GradeForm(request.POST, instance=grade)
-  context = {"form":form}
-  return render(request, "journal/grade_form.html", context)
+class GradeDeleteView(DeleteView, TeacherRequiredMixin):
+    
+    template_name = "journal/grade_confirm_delete.html"
+    model =  Grade
+    success_url = reverse_lazy("grade_list")
 
-# def grade_delete(request, pk):
-#   grade = get_object_or_404(Grade, pk=pk)
-#   form = GradeForm(request.POST, instance=grade)
-#   context = {"form":form}
-#   return render(request, "journal/grade_form.html", context)
+
+# user site
+class MyGradesListView(ListView):
+    model = Grade
+    template_name = "journal/my_grades.html"
+    context_object_name = "grades"
+
+    def get_queryset(self):
+        student = self.request.user.student
+        try:
+            return Grade.objects.filter(student=student).order_by("-date_added") #filtrowanie po polu student
+        except Student.DoesNotExist:
+            return Grade.objects.none()
+
+def filter_grades(request):
+    query = Grade.objects.all()
+    subject_id = request.GET.get('subject_id')
+    student_id = request.GET.get('student_id')
+    if subject_id:
+        query = query.filter(subject_id=subject_id)
+    if student_id:
+        query = query.filter(student_id=student_id)
+        
+    subjects = Subject.objects.all()
+    students = Student.objects.all()
+
+    context = {"grades":query, "subjects":subjects, "students":students}
+    return render(request, "journal/grade_list.html", context)
+
+def no_permission(request):
+    return render(request, "journal/no_permission.html", {})
+
+
+class RegisterView():
+    pass
