@@ -1,0 +1,10 @@
+{% extends 'journal/base.html' %} 
+{% block title %} Edytuj studenta {% endblock %} 
+{% block content %}
+<h1>Edytuj studenta</h1>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Zapisz zmiany</button>
+</form>
+<a href="{% url 'student_list' %}">Powrót do listy studentów</a>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.views.generic import (CreateView, DeleteView, ListView, UpdateView, TemplateView)
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Student, Grade, Subject
 from .forms import StudentForm, SubjectForm, GradeForm
 from django.urls import reverse_lazy
@@ -18,12 +18,25 @@ class StudentListView(ListView):
     model = Student
     context_object_name = "students"
     
-
+# kontrola przez nauczyciela
 class StudentCreateView(TeacherRequiredMixin, CreateView):
     
     template_name = "journal/student_form.html"
     model = Student
     form_class = StudentForm
+    success_url = reverse_lazy("student_list")
+
+class StudentUpdateView(TeacherRequiredMixin, UpdateView):
+    
+    template_name = "journal/student_update_form.html"
+    model = Student
+    form_class = StudentForm
+    success_url = reverse_lazy("student_list")
+
+class StudentDeleteView(TeacherRequiredMixin, DeleteView):
+    
+    template_name = "journal/student_confirm_delete.html"
+    model = Student
     success_url = reverse_lazy("student_list")
 
 
@@ -104,5 +117,23 @@ def no_permission(request):
     return render(request, "journal/no_permission.html", {})
 
 
-class RegisterView():
-    pass
+# def register_view(request):
+#     if request.method == "POST":
+#         form = UserCreationForm(request.POST)
+#         print("Wchodze do 109")
+#         if form.is_valid():
+#             form.save()
+#             print("Wchodze do 112")
+#             return redirect("student_list")   
+#         else:
+#             form = UserCreationForm()
+#             return render(request, "register.html", {"form":form})
+#     else:
+#         form = UserCreationForm()
+#     return render(request, "register.html", {"form":form})
+
+class RegisterView(CreateView):
+    form_class = UserCreationForm
+    template_name = "register.html"
+    success_url = reverse_lazy("student_list")
+

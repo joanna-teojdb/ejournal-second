@@ -105,13 +105,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
+LOGIN_REDIRECT_URL = '/'             # Po zalogowaniu użytkownik trafi na stronę główną
+
+LOGIN_URL = '/login/'                # Jeżeli wymagana jest autoryzacja, użytkownik zostanie przekierowany na ten adres
+
+LOGOUT_REDIRECT_URL = '/'            # Po wylogowaniu – na stronę główną
 
 
 # Static files (CSS, JavaScript, Images)

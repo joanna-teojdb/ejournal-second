@@ -1,0 +1,13 @@
+{% extends 'journal/base.html' %} 
+{% block title %} Usuń studenta {% endblock %} 
+{% block content %}
+<h1>Czy na pewno chcesz usunąć studenta?</h1>
+<p>
+  {{ object.student.first_name }} {{ object.student.last_name }} 
+</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Tak, usuń</button>
+</form>
+<a href="{% url 'student_list' %}">Anuluj</a>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'journal/base.html' %} 
+{% block title %} Rejestracja {% endblock%} 
+
+{% block content %}
+Rejestracja nowego użytkownika
+<form class="form-with-validation" method="post">
+    {%csrf_token%}
+    {{form}}
+    <button type="submit">Wyślij</button>
+</form>
+{% endblock %}
+    

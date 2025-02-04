@@ -6,6 +6,13 @@
   {% for student in students %}
   <li>
     {{ student.first_name }} {{ student.second_name }} (Klasa: {{ student.class_number }})
+    {% if student.user %}
+    <p> Student ma konto</p>
+    {% endif %}
+    {% if user.is_staff %}
+    <a href="{% url 'student_update' student.pk %}">Edytuj</a>
+    <a href="{% url 'student_delete' student.pk %}">Usuń</a>
+    {% endif %}
   </li>
   {% endfor %}
 </ul>
