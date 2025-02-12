@@ -1,0 +1,13 @@
+{% extends 'journal/base.html' %} 
+{% block title %} Usuń przedmiot {% endblock %} 
+{% block content %}
+<h1>Czy na pewno chcesz usunąć ten przedmiot?</h1>
+<p>
+  {{ object.subject.name }}
+</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Tak, usuń</button>
+</form>
+<a href="{% url 'subject_list' %}">Anuluj</a>
+{% endblock %}

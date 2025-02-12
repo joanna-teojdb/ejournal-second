@@ -55,6 +55,20 @@ class SubjectCreateView(TeacherRequiredMixin, CreateView):
     form_class = SubjectForm
     success_url = reverse_lazy("subject_list")
 
+class SubjectUpdateView(TeacherRequiredMixin, UpdateView):
+    
+    template_name = "journal/subject_update_form.html"
+    model = Subject
+    form_class = SubjectForm
+    success_url = reverse_lazy("subject_list")
+
+class SubjectDeleteView(TeacherRequiredMixin, DeleteView):
+    
+    template_name = "journal/subject_confirm_delete.html"
+    model = Subject
+    success_url = reverse_lazy("subject_list")
+
+
 
 # Grades
 class GradeListView(ListView):
