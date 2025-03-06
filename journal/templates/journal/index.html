@@ -1,7 +1,29 @@
-{% extends 'journal/base.html' %} 
-{% block title %} Strona główna {% endblock%} 
-
+<!-- index.html -->
+{% extends 'journal/base.html' %}
 {% block content %}
-Dziennik elektroniczny to aplikacja do sprawdzania postępów edukacji uczniów w naszej szkole.
+<div class="welcome-section text-center">
+    <h1 class="display-4 mb-4">Witamy w dzienniku elektronicznym</h1>
+    <p class="lead">Kompleksowe narzędzie do monitorowania postępów edukacyjnych</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="stats-card">
+            <h3>Liczba uczniów</h3>
+            <p class="display-4 text-primary">1,234</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="stats-card">
+            <h3>Średnia szkoły</h3>
+            <p class="display-4 text-success">4.5</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="stats-card">
+            <h3>Nowe oceny</h3>
+            <p class="display-4 text-info">56</p>
+        </div>
+    </div>
+</div>
 {% endblock %}
-    

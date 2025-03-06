@@ -1,74 +1,93 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="pl">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Elektroniczny dziennik{% endblock %}</title>
-    <!-- Link do Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #dcdcdc; /* Kolor przypominający kamień (light gray) */
-            font-family: 'Arial', sans-serif; /* Nowoczesna czcionka */
-        }
-        header {
-            background-color: #a9a9a9; /* Ciemniejszy odcień dla nagłówka (dark gray) */
-            padding: 20px 0;
-        }
-        nav ul {
-            list-style-type: none; /* Usunięcie punktów z listy */
-            padding: 0;
-        }
-        nav ul li {
-            display: inline; /* Wyświetlenie elementów w linii */
-            margin-right: 30px; /* Większy odstęp między linkami */
-        }
-        nav ul li a {
-            color: #fff; /* Kolor tekstu linków */
-            text-decoration: none; /* Usunięcie podkreślenia */
-            font-weight: bold; /* Pogrubienie tekstu */
-            transition: color 0.3s; /* Płynna zmiana koloru */
-        }
-        nav ul li a:hover {
-            color: #ffcc00; /* Kolor przy najechaniu */
-            text-decoration: underline; /* Podkreślenie przy najechaniu */
-        }
-        main {
-            padding: 20px; /* Padding dla głównej zawartości */
-            border-radius: 8px; /* Zaokrąglenie rogów */
-            background-color: #ffffff; /* Białe tło dla głównej zawartości */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Cień dla głównej zawartości */
-        }
-    </style>
+    <link href="{% static 'css/base.css'%}" rel="stylesheet">
 </head>
 <body>
     <header>
-        <nav class="container">
-            <ul>
-                <li><a href="{% url 'index' %}">Strona główna</a></li>
-                <li><a href="{% url 'student_list' %}">Uczniowie</a></li>
-                <li><a href="{% url 'subject_list' %}">Przedmioty</a></li>
-                <li><a href="{% url 'grade_list' %}">Oceny</a></li>
-                {% if user.is_authenticated %}
-                <li>Witaj {{ user.username }}!</li>
-                    {% if user.is_staff %}
-                    <li>Nauczyciel</li>
-                    {% else %}
-                    <li>Uczeń</li>
-                {% endif %}
-                <li><a href="{% url 'logout' %}">Wyloguj się</a></li>
-                {% else %}
-                    <li><a href="{% url 'login' %}">Zaloguj się</a></li>
-                    <li><a href="{% url 'register' %}">Zarejestruj się</a></li>
-                {% endif %}
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom py-3">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'index' %}">e-Szkoła</a>
+                
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Strona główna</a>
+                        </li>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="studentsMenu" data-toggle="dropdown">
+                                Uczniowie
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'student_list' %}">Lista uczniów</a>
+                                <a class="dropdown-item" href="#">Statystyki</a>
+                                <a class="dropdown-item" href="#">Rankingi</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'subject_list' %}">Przedmioty</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="gradesMenu" data-toggle="dropdown">
+                                Oceny
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'grade_list' %}">Przeglądaj oceny</a>
+                                <a class="dropdown-item" href="{% url 'grade_add' %}">Dodaj ocenę</a>
+                            </div>
+                        </li>
+
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <span class="nav-link text-info">
+                                    <i class="fas fa-user mr-2"></i>{{ user.username }}
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Wyloguj
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">
+                                    <i class="fas fa-sign-in-alt mr-2"></i>Logowanie
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'register' %}">
+                                    <i class="fas fa-user-plus mr-2"></i>Rejestracja
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
         </nav>
     </header>
-    <main class="container mt-4">{% block content %}{% endblock %}</main>
 
-    <!-- Link do Bootstrap JS i jQuery -->
+    <main class="container">
+        <div class="content-container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Skrypty -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
 </body>
 </html>

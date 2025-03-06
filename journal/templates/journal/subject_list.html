@@ -1,11 +1,22 @@
-{% extends 'journal/base.html' %} 
-{% block title %} Lista przedmiotów {% endblock%} 
+<!-- subject_list.html -->
+{% extends 'journal/base.html' %}
 {% block content %}
-<h1>Lista przedmiotów</h1>
-<ul>
-  {% for subject in subjects %}
-  <li>{{ subject.name }}</li>
-  {% endfor %}
-</ul>
-<a href="{% url 'subject_add' %}">Dodaj przedmiot</a>
+<h1 class="mb-4">Lista przedmiotów</h1>
+
+<div class="row">
+    {% for subject in subjects %}
+    <div class="col-md-4 mb-4">
+        <div class="subject-card hover-scale">
+            <div class="text-center">
+                <h3>{{ subject.name }}</h3>
+                <p class="mb-0">Liczba ocen: 25</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if user.is_staff %}
+<a href="{% url 'subject_add' %}" class="btn btn-success">Dodaj nowy przedmiot</a>
+{% endif %}
 {% endblock %}

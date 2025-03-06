@@ -1,37 +1,48 @@
-{% extends 'journal/base.html' %} 
-{% block title %}Lista ocen{% endblock %} 
-{%block content %}
-<h1>Lista ocen</h1>
+<!-- grade_list.html -->
+{% extends 'journal/base.html' %}
+{% block content %}
+<h1 class="mb-4">Lista ocen</h1>
 
-<!-- Przykładowy formularz do filtrowania ocen (wg ucznia, przedmiotu) -->
-<form method="GET">
-  <label for="student">Uczeń:</label>
-  <input
-    type="text"
-    name="student"
-    placeholder="Nazwisko ucznia"
-    value="{{ request.GET.student|default_if_none:'' }}"
-  />
-
-  <label for="subject">Przedmiot:</label>
-  <input
-    type="text"
-    name="subject"
-    placeholder="Nazwa przedmiotu"
-    value="{{ request.GET.subject|default_if_none:'' }}"
-  />
-
-  <button type="submit">Filtruj</button>
+<form class="mb-4">
+    <div class="form-row">
+        <div class="col-md-4 mb-2">
+            <input type="text" class="form-control" placeholder="Nazwisko ucznia" name="student">
+        </div>
+        <div class="col-md-4 mb-2">
+            <input type="text" class="form-control" placeholder="Przedmiot" name="subject">
+        </div>
+        <div class="col-md-4 mb-2">
+            <button class="btn btn-primary btn-block">Filtruj</button>
+        </div>
+    </div>
 </form>
 
-<ul>
-  {% for grade in grades %}
-  <li>
-    {{ grade.student.first_name }} {{ grade.student.second_name }} - {{ grade.subject.name }}: {{ grade.value }}
-    <a href="{% url 'grade_update' grade.id %}">Edytuj</a> |
-  </li>
-  {% endfor %}
-</ul>
+<div class="table-responsive">
+    <table class="table table-custom table-hover">
+        <thead>
+            <tr>
+                <th>Uczeń</th>
+                <th>Przedmiot</th>
+                <th>Ocena</th>
+                <th>Data</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grade in grades %}
+            <tr>
+                <td>{{ grade.student.first_name }} {{ grade.student.second_name }}</td>
+                <td>{{ grade.subject.name }}</td>
+                <td>{{ grade.value }}</td>
+                <td>2023-01-01</td>
+                <td>
+                    <a href="{% url 'grade_update' grade.id %}" class="btn btn-sm btn-outline-primary">Edytuj</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-<a href="{% url 'grade_add' %}">Dodaj ocenę</a>
+<a href="{% url 'grade_add' %}" class="btn btn-success mt-3">Dodaj nową ocenę</a>
 {% endblock %}
